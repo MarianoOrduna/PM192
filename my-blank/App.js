@@ -3,17 +3,17 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View,Button } from 'react-native';
 
 const Texto=(props)=>{
-  const{contenido}=props
-  return(<Text>{contenido}</Text>)
+  const{children}=props
+  return(<Text>{children}</Text>)
 }
 
 /* Zona 2 Main */
 export default function App() {
   return (
     <View style={styles.container}>
-      <Texto contenido = "Hola"> </Texto>
-      <Texto contenido = "Mariano"> </Texto>
-      <Texto contenido = "React Native"> </Texto>
+      <Texto > Hola </Texto>
+      <Texto >Mariano  </Texto>
+      <Texto > Children</Texto>
       <Button title="Presioname"> </Button>
       <StatusBar style="auto" />
     </View>
