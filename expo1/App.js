@@ -1,95 +1,126 @@
-/* Zona 1 importaciones */
-import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
-import { StyleSheet, Text, View, Switch} from 'react-native';
-import { SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
+import React, { useState } from 'react';
+import {
+  Alert,
+  SafeAreaView,
+  StyleSheet,
+  Switch,
+  Text,
+  TouchableOpacity,
+  View,
+  Image
+} from 'react-native';
 
-
-/* Zona 2 Main */
 export default function App() {
-const [activarSwitch, setactivarSwitch]=useState(false);
-const[modoOscuro,setModoOscuro]=useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isSwitchBlocked, setIsSwitchBlocked] = useState(true);
+  const [disabledButton, setDisabledButton] = useState(false);
+  const [count, setCount] = useState(0);
+
+  const toggleDarkMode = () => setIsDarkMode(previous => !previous);
+
+  const handleFirstButton = () => Alert.alert('Me presionaste');
+  const handleDisableButton = () => setDisabledButton(true);
+  const handleCounter = () => setCount(count + 1);
+  const handlePokeball = () => Alert.alert('¡La pokebola ha sido presionada!');
 
   return (
-    <SafeAreaProvider>
+    <SafeAreaView style={[styles.container, isDarkMode && styles.darkBackground]}>
+      <Text style={[styles.title, isDarkMode && styles.darkText]}>Práctica Switch</Text>
 
-    
-    <SafeAreaView style={[styles.contenedor, modoOscuro && styles.fondoOscuro]}>
+      {/* Switch principal para modo oscuro */}
+      <View style={styles.switchContainer}>
+        <Text style={isDarkMode ? styles.darkText : styles.lightText}>Modo Oscuro</Text>
+        <Switch
+          value={isDarkMode}
+          onValueChange={isSwitchBlocked ? null : toggleDarkMode}
+        />
+      </View>
 
-{/* Aqui van los componentes */}
+      {/* Switch que bloquea el cambio */}
+      <View style={styles.switchContainer}>
+        <Text style={isDarkMode ? styles.darkText : styles.lightText}>Bloquear Switch</Text>
+        <Switch
+          value={isSwitchBlocked}
+          onValueChange={() => setIsSwitchBlocked(!isSwitchBlocked)}
+        />
+      </View>
 
-<Text style={[styles.titulo,modoOscuro && styles.textoClaro]}>
-practica swith
-</Text>
+      {/* Botón 1 - alerta */}
+      <TouchableOpacity style={styles.button} onPress={handleFirstButton}>
+        <Text style={styles.buttonText}>Primer Botón</Text>
+      </TouchableOpacity>
 
-<View style={styles.opcion}> 
-<Text style={[styles.etiqueta,modoOscuro && styles.textoClaro]}> 
-  Activar Switch2
-</Text>
-<Switch value={activarSwitch}
-onValueChange={setactivarSwitch}
-trackColor={{false:'#ccc',true:"#4caf50"}}
-thumbColor={activarSwitch? '#fffff':'#999999'}>
-</Switch>
-</View>
+      {/* Botón 2 - desactiva después de presionar */}
+      <TouchableOpacity
+        style={[styles.button, disabledButton && styles.buttonDisabled]}
+        onPress={handleDisableButton}
+        disabled={disabledButton}
+      >
+        <Text style={styles.buttonText}>
+          {disabledButton ? 'Desactivado' : 'Segundo Botón'}
+        </Text>
+      </TouchableOpacity>
 
-<View style={styles.opcion}> 
-<Text style={[styles.etiqueta,modoOscuro && styles.textoClaro]}> 
-  modoOscuro
-</Text>
-<Switch value={modoOscuro}
-onValueChange={setModoOscuro}
-disabled={activarSwitch}
-trackColor={activarSwitch?
-  {false:'#ff9999',true:'#ff3b30'}
-  :{false:'ccc',true:'#4caf50'}
-}
-thumbColor={
-  activarSwitch? '#ff3b30'
-  :modoOscuro
-  ?'#fffff'
-  :'#999999'
-}
->
-</Switch>
-</View>
+      {/* Botón 3 - contador */}
+      <TouchableOpacity style={styles.button} onPress={handleCounter}>
+        <Text style={styles.buttonText}>Tercer Botón (Contador: {count})</Text>
+      </TouchableOpacity>
 
+      {/* Botón 4 - pokebola */}
+      <TouchableOpacity onPress={handlePokeball}>
+        <Image
+          source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/5/53/Poké_Ball_icon.svg' }}
+          style={styles.pokeball}
+        />
+      </TouchableOpacity>
     </SafeAreaView>
-  </SafeAreaProvider>
-    
-
-    
   );
 }
-/*  zona 3 estilos */
+
 const styles = StyleSheet.create({
-  contenedor:{
-    flex:1,
-    background:"#fff",
-    paddingHorizontal:30,
-    justifyContent:"center"
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
   },
-  titulo:{
-    fontSize:24,
-    marginBottom:40,
-    textAlign:"center",
-    fontWeight:'bold'
+  darkBackground: {
+    backgroundColor: '#222',
   },
-  fondoOscuro:{
-    backgroundColor:'black',
+  title: {
+    fontSize: 24,
+    marginBottom: 20,
   },
-  textoClaro:{
-    color:'white'
+  lightText: {
+    color: '#000',
   },
-  opcion:{
-    flexDirection:'row',
-    justifyContent:'space-between',
-    marginBottom:30,
-    alignItems:'center'
+  darkText: {
+    color: '#fff',
   },
-  etiqueta:{
-    fontSize:18,
-
-  }
-
+  switchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+    gap: 10,
+  },
+  button: {
+    backgroundColor: '#3498db',
+    padding: 12,
+    marginTop: 10,
+    borderRadius: 8,
+    width: '80%',
+    alignItems: 'center',
+  },
+  buttonDisabled: {
+    backgroundColor: '#95a5a6',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+  },
+  pokeball: {
+    width: 60,
+    height: 60,
+    marginTop: 20,
+  },
 });
