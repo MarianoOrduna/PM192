@@ -4,10 +4,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 export default function Home() {
   return (
     <View style={styles.container}>
-      <View style={styles.iconRow}>
-        <Ionicons name="home-outline" size={28} color="red" />
-        <Text style={styles.title}>Bienvenido a la pantalla principal</Text>
-      </View>
+      <Ionicons name="home-outline" size={28} color="red" />
+      <Text style={styles.title}>Bienvenido a la pantalla principal</Text>
     </View>
   );
 }
@@ -20,14 +18,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
   },
-  iconRow: {
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginTop: 10,
+    marginTop: 20,
     color: 'red',
   },
 });
